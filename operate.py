@@ -116,7 +116,7 @@ time.sleep(3)
 
 # 呼叫 spintest.py 開啟 LED 5
 print("開啟 LED 5...")
-run_script(script8)
+run_script(script8)  ## open spin
 
 # 等待滴下第二種液體
 print(f"等待 {drop_second_liquid_time} 秒，然後滴下第二種液體...")
@@ -124,7 +124,7 @@ time.sleep(drop_second_liquid_time)
 print('for safety, wait for a while')
 time.sleep(5)
 
-#run_script(script12)
+#run_script(script12)  ## down
 #time.sleep(4)
 # 呼叫 pitette2test.py 開啟 LED 9
 print("再次開啟 LED 9...")
@@ -138,21 +138,25 @@ if wait_time is not None:
     time.sleep(wait_time )  # Convert minutes to seconds
 
 ##run_script(script9)
+'''
 print('script 11')
-run_script(script11)
+run_script(script11)  ## up
+'''
 # 等待停止 VAC
 print(f"等待 {stop_vac_time} 秒以停止 VAC...")
 time.sleep(stop_vac_time)
-##run_script(script10)
+##run_script(script10)  # stop
 
 print('debugging')
 #time.sleep(5)
 print('Take a photo~~')
+'''
 # 執行 armtest.py 和 putglass.py
-run_script(script13)
+run_script(script13) # move
 time.sleep(5)
+'''
 print("really take a photo")
-run_script(script5)
+run_script(script5)  ## armtest
 run_script(script6)
 '''
 print("所有程式執行完畢。")

@@ -8,6 +8,7 @@ from tkinter import simpledialog
 print(sys.executable)
 
 # 定義要執行的程式檔
+script0 = "adjust_para_ui.py"
 script1 = "start_copy_2.py"
 script2 = "pitette1ui.py"
 script3 = "spinui.py"
@@ -61,6 +62,8 @@ def read_calculated_time2():
     except (FileNotFoundError, ValueError) as e:
         print(f"Error reading time: {e}")
         return None
+
+run_script(script0)
 
 '''
 # Step 1: 同時執行 pitette1ui.py 和 turn.py

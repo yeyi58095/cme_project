@@ -7,16 +7,6 @@ import requests
 import base64
 import os
 import shutil
-
-# 設定 ESP32-CAM 的 IP
-esp32_ip = 'http://192.168.137.240'
-
-# 定義資料夾路徑
-base_folder = 'images'
-original_folder = os.path.join(base_folder, 'originals')
-output_folder = os.path.join(base_folder, 'tryInHouse')
-results_folder = os.path.join(base_folder, 'results')
-
 import json
 
 with open('config.json', 'r') as f:
@@ -25,6 +15,16 @@ with open('config.json', 'r') as f:
 photo_position = config["photo_taking_position"]
 pre_photo = photo_position + np.array([0, 0, 80, 0, 0, 0])
 top_grabbing_glass = config["the_top_of_grabbing_glass"]
+# 設定 ESP32-CAM 的 IP
+esp32_ip = config["espCam_ip"]
+
+# 定義資料夾路徑
+base_folder = 'images'
+original_folder = os.path.join(base_folder, 'originals')
+output_folder = os.path.join(base_folder, 'tryInHouse')
+results_folder = os.path.join(base_folder, 'results')
+
+
 
 # 確保輸出資料夾存在
 os.makedirs(output_folder, exist_ok=True)

@@ -26,8 +26,13 @@ import traceback
 import threading
 from xarm import version
 from xarm.wrapper import XArmAPI
+import json
+import numpy
+with open('config.json', 'r') as f:
+    config = json.load(f)
 
-
+photo_position = config["photo_taking_position"]
+pre_photo = photo_position + numpy.array([0, 0, 80, 0, 0, 0])
 class RobotMain(object):
     """Robot Main Class"""
     def __init__(self, robot, **kwargs):
@@ -119,7 +124,7 @@ class RobotMain(object):
             code = self._arm.set_position(*[-121.2, 251.1, 400.0, -179.9, 0.0, 90.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
             if not self._check_code(code, 'set_position'):
                 return
-            code = self._arm.set_position(*[-121.2, 251.1, 341.6, -179.9, 0.0, 90.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
+            code = self._arm.set_position(*photo_position, speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
             if not self._check_code(code, 'set_position'):
                 return
         except Exception as e:

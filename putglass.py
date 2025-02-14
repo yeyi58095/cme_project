@@ -26,7 +26,12 @@ import traceback
 import threading
 from xarm import version
 from xarm.wrapper import XArmAPI
+import json
+import numpy
+with open('config.json', 'r') as f:
+    config = json.load(f)
 
+put_glass_position = config["put_glass_finish"]
 
 class RobotMain(object):
     """Robot Main Class"""
@@ -119,20 +124,20 @@ class RobotMain(object):
             code = self._arm.set_position(*[-121.2, 301.6, 400.0, -179.8, 1.3, 0.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
             if not self._check_code(code, 'set_position'):
                 return
-            code = self._arm.set_position(*[-121.2, -216.9, 250.0, -179.8, 1.3, 0.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-            if not self._check_code(code, 'set_position'):
-                return
-            code = self._arm.set_position(*[-360.0, -216.9, 250.0, 176.2, 1.1, -2.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-            if not self._check_code(code, 'set_position'):
-                return
-            code = self._arm.set_position(*[-360.0, -216.9, 222.2, 176.2, 1.1, -2.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
+
+            code = self._arm.set_position(*[-121.2, 0, 400, -179.8, 1.3, 0.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
             if not self._check_code(code, 'set_position'):
                 return
 
-            code = self._arm.set_position(*[-333.7, 6.9, 179, -178.7, 0.0, 0.0], speed=self._tcp_speed,
-                                          mvacc=self._tcp_acc, radius=0.0, wait=True)
+            code = self._arm.set_position(*put_glass_position + numpy.array([0, 0, 20, 0, 0, 0]), speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
             if not self._check_code(code, 'set_position'):
                 return
+
+            code = self._arm.set_position(*put_glass_position, speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
+            if not self._check_code(code, 'set_position'):
+                return
+
+
             code = self._arm.close_lite6_gripper()
             time.sleep(1)
             if not self._check_code(code, 'close_lite6_gripper'):

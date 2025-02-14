@@ -26,7 +26,13 @@ import traceback
 import threading
 from xarm import version
 from xarm.wrapper import XArmAPI
+import numpy
+import json
 
+with open('config.json', 'r') as f:
+    config = json.load(f)
+
+target_position = config["inject_position"] + numpy.array([0, 0, 80, 0, 0, 0])
 
 class RobotMain(object):
     """Robot Main Class"""
@@ -116,7 +122,7 @@ class RobotMain(object):
     # Robot Main Run
     def run(self):
         try:
-            code = self._arm.set_position(*[-98.1, 143.3, 400.0, -175.3, -2.8, -84.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
+            code = self._arm.set_position(*target_position, speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
             if not self._check_code(code, 'set_position'):
                 return
         except Exception as e:

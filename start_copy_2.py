@@ -26,7 +26,17 @@ import traceback
 import threading
 from xarm import version
 from xarm.wrapper import XArmAPI
+import json
+import numpy
 
+with open("config.json", 'r') as f:
+    config = json.load(f)
+
+initial_position = config["initial_position"]
+above_init = initial_position + numpy.array([0, 0, 20, 0, 0, 0])
+placing_glass_on_spin = config["placing_glass_on_spin_coater"]
+pre_place_on_spin = placing_glass_on_spin + numpy.array([0, 0, 80, 0, 0, 0])
+inject_position = config["inject_position"]
 
 class RobotMain(object):
     """Robot Main Class"""
@@ -120,10 +130,10 @@ class RobotMain(object):
             code = self._arm.set_position(*[-123.7, 6.9, 180.7, -178.7, 0.0, 0.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
             if not self._check_code(code, 'set_position'):
                 return
-            code = self._arm.set_position(*[-333.7, 6.9, 190, -178.7, 0.0, 0.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
+            code = self._arm.set_position(*above_init, speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
             if not self._check_code(code, 'set_position'):
                 return
-            code = self._arm.set_position(*[-333.7, 6.9, 177.7, -178.7, 0.0, 0.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=True)
+            code = self._arm.set_position(*initial_position, speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=True)
             if not self._check_code(code, 'set_position'):
                 return
             time.sleep(1)
@@ -140,10 +150,10 @@ class RobotMain(object):
             code = self._arm.set_position(*[-126.2, 6.9, 400.0, -179.9, 0.0, -90.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
             if not self._check_code(code, 'set_position'):
                 return
-            code = self._arm.set_position(*[-126.2, 301.6, 400.0, -179.9, 0.0, -90.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
+            code = self._arm.set_position(*pre_place_on_spin, speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
             if not self._check_code(code, 'set_position'):
                 return
-            code = self._arm.set_position(*[-129, 301.5, 313.2, -179.8, -0.1, -90.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=True)
+            code = self._arm.set_position(*placing_glass_on_spin, speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=True)
             if not self._check_code(code, 'set_position'):
                 return
 
@@ -153,13 +163,16 @@ class RobotMain(object):
             if not self._check_code(code, 'close_lite6_gripper'):
                 return
             time.sleep(1)
-            code = self._arm.set_position(*[-121.2, 301.6, 400.0, -179.9, 0.0, -90.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
+            code = self._arm.set_position(*pre_place_on_spin, speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
             if not self._check_code(code, 'set_position'):
                 return
+
+
             code = self._arm.set_position(*[-93.0, 144.9, 400.0, -179.9, 0.0, -90.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
             if not self._check_code(code, 'set_position'):
                 return
-            code = self._arm.set_position(*[-102.0, 146.9, 321.6, -175.3, -2.8, -84.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
+
+            code = self._arm.set_position(*inject_position, speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
             if not self._check_code(code, 'set_position'):
                 return
 

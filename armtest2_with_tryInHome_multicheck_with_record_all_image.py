@@ -17,6 +17,15 @@ original_folder = os.path.join(base_folder, 'originals')
 output_folder = os.path.join(base_folder, 'tryInHouse')
 results_folder = os.path.join(base_folder, 'results')
 
+import json
+
+with open('config.json', 'r') as f:
+    config = json.load(f)
+
+photo_position = config["photo_taking_position"]
+pre_photo = photo_position + np.array([0, 0, 80, 0, 0, 0])
+top_grabbing_glass = config["the_top_of_grabbing_glass"]
+
 # 確保輸出資料夾存在
 os.makedirs(output_folder, exist_ok=True)
 os.makedirs(results_folder, exist_ok=True)
@@ -207,12 +216,12 @@ class RobotMain:
 
     def move_to_initial_position(self):
         print('move to init position')
-        self._arm.set_position(*[-121.2, 251.1, 400.0, -179.9, 0.0, +90.0], speed=self._tcp_speed, mvacc=self._tcp_acc, wait=True)
+        self._arm.set_position(*pre_photo, speed=self._tcp_speed, mvacc=self._tcp_acc, wait=True)
         time.sleep(1)
 
     def move_to_photo_position(self):
         try:
-            self._arm.set_position(*[-128.8, 251.0, 333.7, -179.9, -0.5, 92.2],
+            self._arm.set_position(*photo_position,
                                    speed=self._tcp_speed, mvacc=self._tcp_acc, wait=True)
             print('Moved to photo position.')
         except Exception as e:
@@ -220,7 +229,7 @@ class RobotMain:
 
     def adjust_to_short_side(self, rect):
         try:
-            self._arm.set_position(*[-127.2, 299.6, 335, -179.9, -0.5, 92.2],
+            self._arm.set_position(*top_grabbing_glass,
                                    speed=self._tcp_speed, mvacc=self._tcp_acc, wait=True)
             print('Moved to photo position.')
         except Exception as e:
@@ -317,6 +326,7 @@ def main():
             robot.move_to_initial_position()
         else:
             print("No valid rectangle detected.")
+            robot.move_to_initial_position()
 
         print("Processing complete.")
     else:

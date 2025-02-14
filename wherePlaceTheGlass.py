@@ -26,8 +26,17 @@ import traceback
 import threading
 from xarm import version
 from xarm.wrapper import XArmAPI
+import json
+import numpy
 
+with open("config.json", 'r') as f:
+    config = json.load(f)
 
+initial_position = config["initial_position"]
+
+high_position = initial_position + numpy.array([0, 0, 20, 0, 0, 0])
+
+print(high_position)
 class RobotMain(object):
     """Robot Main Class"""
     def __init__(self, robot, **kwargs):
@@ -118,34 +127,16 @@ class RobotMain(object):
         try:
             self._arm.close_lite6_gripper()
 
-            code = self._arm.set_position(*[-333.5, 5.3, 178.9, 178.9, -0.2, -2.1], speed=self._tcp_speed,
-                                          mvacc=self._tcp_acc, radius=0.0, wait=True)
+            code = self._arm.set_position(*initial_position, speed=self._tcp_speed,   mvacc=self._tcp_acc, radius=0.0, wait=True)
+            code = self._arm.set_position(*high_position, speed=self._tcp_speed,   mvacc=self._tcp_acc, radius=0.0, wait=True)
             if not self._check_code(code, 'set_position'):
                 return
-
 
             return
-            time.sleep(1)
-            code = self._arm.close_lite6_gripper()
-            if not self._check_code(code, 'close_lite6_gripper'):
-                return
-            time.sleep(1)
-            code = self._arm.set_position(*[-121.2, 301.6, 400.0, -179.9, 0.0, -90.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-            if not self._check_code(code, 'set_position'):
-                return
-            code = self._arm.set_position(*[-93.0, 144.9, 400.0, -179.9, 0.0, -90.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-            if not self._check_code(code, 'set_position'):
-                return
-            code = self._arm.set_position(*[-43.6, 162.8, 306.0, 177.7, -1.1, -65.0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=0.0, wait=False)
-            if not self._check_code(code, 'set_position'):
-                return
+
         except Exception as e:
             self.pprint('MainException: {}'.format(e))
-        self.alive = False
-        self._arm.release_error_warn_changed_callback(self._error_warn_changed_callback)
-        self._arm.release_state_changed_callback(self._state_changed_callback)
-        if hasattr(self._arm, 'release_count_changed_callback'):
-            self._arm.release_count_changed_callback(self._count_changed_callback)
+
 
 
 if __name__ == '__main__':

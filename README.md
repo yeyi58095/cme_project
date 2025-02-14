@@ -8,3 +8,13 @@ There are many python executable file in this project:
 the below file is for robotic arm to function in sequently: 
 
 `start_copy_2.py`: this file executes the initial step, including moving to the initial place, grabbing the glass from the designned place, moving to the top of the spin coater to place the glass on it.
+
+`up.py`: After placing the glass onto the spin coater, the robot arm need to leave the spin coater away along the z axis (meaning increasing the height), and it is what this file processes.
+
+`move.py`: this files instructs the arm to the pre-photo-taking place
+
+`armtest2.py`: it instructs the arm to the photo-taking place, and taking the photo to localizate what rotated angle does glass have with image recognization. After determine the rotated angle, arm will rotate specific angle to grab the glass from the spin coater appropriately.
+
+`putglass.py`: after done the whole process, it will instruct arm to place the glass at the designated place 
+
+`wherePlaceTheGlass.py`: At the beginning, user may not know where to place the glass. This file will go to the initial glass-placing place to show user where do he/she places the glass.

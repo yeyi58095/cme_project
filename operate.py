@@ -12,7 +12,7 @@ script1 = "start_copy_2.py"
 script2 = "pitette1ui.py"
 script3 = "spinui.py"
 script4 = "pitette2ui.py"
-script5 = "armtest2_more_always_new.py"
+script5 = "armtest2_with_tryInHome_multicheck_with_record_all_image.py"
 script6 = "putglass.py"
 script7 = "pitette1open.py"  # 開啟 LED 9 的腳本
 script8 = "spinopen.py"       # 開啟 LED 5 的腳本
@@ -154,9 +154,10 @@ print('Take a photo~~')
 # 執行 armtest.py 和 putglass.py
 run_script(script13) # move
 time.sleep(5)
-'''
+
 print("really take a photo")
 run_script(script5)  ## armtest
+
 run_script(script6)
-'''
+
 print("所有程式執行完畢。")

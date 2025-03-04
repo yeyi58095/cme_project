@@ -18,13 +18,14 @@ top_grabbing_glass = config["the_top_of_grabbing_glass"]
 # 設定 ESP32-CAM 的 IP
 esp32_ip = config["espCam_ip"]
 
+
+
+
 # 定義資料夾路徑
 base_folder = 'images'
 original_folder = os.path.join(base_folder, 'originals')
 output_folder = os.path.join(base_folder, 'tryInHouse')
 results_folder = os.path.join(base_folder, 'results')
-
-
 
 # 確保輸出資料夾存在
 os.makedirs(output_folder, exist_ok=True)

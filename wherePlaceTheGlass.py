@@ -34,7 +34,7 @@ with open("config.json", 'r') as f:
 
 initial_position = config["initial_position"]
 
-high_position = initial_position + numpy.array([0, 0, 20, 0, 0, 0])
+high_position = initial_position + numpy.array([0, 0, 2, 0, 0, 0])
 
 print(high_position)
 class RobotMain(object):

@@ -119,8 +119,11 @@ time.sleep(3)
 
 # 呼叫 spintest.py 開啟 LED 5
 print("開啟 LED 5...")
+'''
 run_script(script8)  ## open spin
-
+print('Be careful')
+time.sleep(20)
+'''
 # 等待滴下第二種液體
 print(f"等待 {drop_second_liquid_time} 秒，然後滴下第二種液體...")
 time.sleep(drop_second_liquid_time)

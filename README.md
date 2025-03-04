@@ -20,3 +20,8 @@ the below file is for robotic arm to function in sequently:
 `putglass.py`: after done the whole process, it will instruct arm to place the glass at the designated place 
 
 `wherePlaceTheGlass.py`: At the beginning, user may not know where to place the glass. This file will go to the initial glass-placing place to show user where do he/she places the glass.
+
+The Below is to control the spin coater
+`spinui.py`: this is to press the bottom from computer for controlling spin coater, to set the vac or spin time and mode.
+
+`spinopen.py`: this code is to operate the spin coater, purely rotating the rotator. It is unable to set how long it will rotate, but need to set those parameters in advance by `spinui.py` or other ways.
